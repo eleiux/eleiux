@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG Animation with Audio</title>
+    <style>
+        body {
+            background-color: black;
+        }
+
+        @keyframes colorCycle {
+            0% { fill: white; }
+            16% { fill: rgb(255, 255, 175); }
+            33% { fill: rgb(106, 255, 106); }
+            50% { fill: cyan; }
+            66% { fill: rgb(67, 67, 255); }
+            83% { fill: rgb(255, 159, 255); }
+            100% { fill: white; }
+        }
+
+        path {
+            animation: colorCycle 10s infinite;
+            animation-play-state: paused;
+        }
+
+        .shadow path {
+            filter: drop-shadow(0 0 30px white); /* Outer glow effect on cloned paths */
+        }
+
+        button {
+            display: block;
+            padding: 0;
+            width: 210px;
+            font-size: 25px;
+            margin: auto;
+            margin-top: 100px;
+            background: transparent;
+            border: none;
+            text-align: center;
+        }
+
+        button svg {
+            width: 100%;
+            height: auto;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+    <button id="playButton" onclick="play();">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-50 -120 300 400" width="200" height="300">
+            <!-- Cloned paths with shadow effect (behind the original paths) -->
+            <g class="shadow">
+                <path d="M100,100 L80,100 L60,85 L50,65 L45,45 L35,30 L30,5 L30,0 L35,-5 L40,-5 L40,-20 L45,-40 L65,-60 L100,-60" 
+                    fill="blue" stroke="none" stroke-width="0"/>
+                <path d="M100,100 L120,100 L140,85 L150,65 L155,45 L165,30 L170,5 L170,0 L165,-5 L160,-5 L160,-20 L155,-40 L135,-60 L100,-60" 
+                    fill="blue" stroke="none" stroke-width="0"/>
+            </g>
+            <!-- Original paths -->
+            <path d="M100,100 L80,100 L60,85 L50,65 L45,45 L35,30 L30,5 L30,0 L35,-5 L40,-5 L40,-20 L45,-40 L65,-60 L100,-60" 
+                fill="blue" stroke="none" stroke-width="0"/>
+            <path d="M100,100 L120,100 L140,85 L150,65 L155,45 L165,30 L170,5 L170,0 L165,-5 L160,-5 L160,-20 L155,-40 L135,-60 L100,-60" 
+                fill="blue" stroke="none" stroke-width="0"/>
+        </svg>
+    </button>
+
+    <script>
+        function play() {
+            const button = document.getElementById('playButton');
+            button.disabled = true;
+
+            const audio = new Audio('U%20Weren%27t%20Here%20I%20Really%20Miss%20You.mp3');
+            
+            audio.play();
+
+            const paths = document.querySelectorAll('button svg path');
+            
+            paths.forEach(path => {
+                path.style.animationPlayState = 'running';
+            });
+
+            audio.onended = function() {
+                button.disabled = false; 
+            };
+        }
+    </script>
+
+</body>
+</html>
