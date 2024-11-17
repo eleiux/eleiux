@@ -87,6 +87,10 @@
 
             audio.onended = function() {
                 button.disabled = false; 
+
+                paths.forEach(path => {
+                    path.style.animationPlayState = 'paused';
+                });
             };
         }
     </script>
